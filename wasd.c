@@ -25,7 +25,12 @@ void inputNumbers(){
     printf("Enter numbers to add (0 to stop):\n");
     
     while (1){
-        scanf("%d", &num);
+        if (scanf("%d", &num) != 1) {
+            printf("Invalid input! Please enter a number (0 to stop).\n");
+            while(getchar() != '\n');
+            continue;  
+        }
+
         if (num == 0)
             break;
         if (numberCount < MAX_NUMBERS){
@@ -103,12 +108,26 @@ void reverseNumbers(){
     }
     
     displayResults("Reverse Number");
-    printf("The answers are: ");
+    printf("The answers are:\n");
     
     for (int i = 0; i < numberCount; i++){
         int num = numberList[i];
         int reversed = 0, remainder;
+        int isNegative = 0;
+        
+        // Handle negative numbers
+        if (num < 0) {
+            isNegative = 1;
+            num = -num;
+        }
+        
         int temp = num;
+        
+        // Handle zero specially
+        if (temp == 0) {
+            printf("  %s%d -> 0\n", isNegative ? "-" : "", 0);
+            continue;
+        }
         
         while (temp != 0){
             remainder = temp % 10;
@@ -116,7 +135,11 @@ void reverseNumbers(){
             temp /= 10;
         }
         
-        printf("  %d -> %d\n", num, reversed);
+        if (isNegative) {
+            printf("  -%d -> -%d\n", num, reversed);
+        } else {
+            printf("  %d -> %d\n", num, reversed);
+        }
     }
 }
 
@@ -130,6 +153,13 @@ void strongNumbers(){
     
     for (int i = 0; i < numberCount; i++){
         int num = numberList[i];
+        
+        // Strong numbers are only defined for non-negative integers
+        if (num < 0) {
+            printf("  %d is NOT a Strong number (negative numbers not applicable)\n", num);
+            continue;
+        }
+        
         int temp = num;
         int sum = 0;
         
@@ -175,7 +205,7 @@ int main(){
     char tryAgain;
     
     while (1){
-        printf("\n=== GROUP 5 MENU ===\n");
+        printf("\n=== Group 5 Super Calculator ===\n");
         printf("[1] Input numbers\n");
         printf("[2] View number list\n");
         printf("[3] Find largest\n");
@@ -185,7 +215,12 @@ int main(){
         printf("[7] Clear number list\n");
         printf("[0] Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input! Please enter a number (0-7).\n");
+            while(getchar() != '\n');
+            continue;
+        }
         
         if (choice == 0){
             printf("The program will now close.\n");
@@ -204,39 +239,43 @@ int main(){
             clearNumberList();
             continue;
         }
+        else if (choice < 0 || choice > 7){
+            printf("Invalid choice. Please select 0-7.\n");
+            continue;
+        }
         
-        do{
-            switch (choice)
-            {
-            case 3:
-                findLargest();
-                break;
-            case 4:
-                reverseNumbers();
-                break;
-            case 5:
-                strongNumbers();
-                break;
-            case 6:
-                cubeRoots();
-                break;
-            default:
-                printf("Invalid choice.\n");
-                tryAgain = 'N';
-                continue;
-            }
-            
-            printf("\nDo you want to try again? (Y/N): ");
+        switch (choice)
+        {
+        case 3:
+            findLargest();
+            break;
+        case 4:
+            reverseNumbers();
+            break;
+        case 5:
+            strongNumbers();
+            break;
+        case 6:
+            cubeRoots();
+            break;
+        }
+        
+        // Ask if user wants to continue
+        while (1) {
+            printf("\nDo you want to continue using the calculator? (Y/N): ");
             scanf(" %c", &tryAgain);
-            if (tryAgain == 'y') tryAgain = 'Y';
-            if (tryAgain == 'n') tryAgain = 'N';
-
-            if(tryAgain == 'N') {
-                printf("The program will close now.\n");
-                return 0;
+            tryAgain = toupper(tryAgain);
+            
+            if (tryAgain == 'Y' || tryAgain == 'N') {
+                break;
             }
+            printf("Invalid input. Please enter Y or N.\n");
+        }
 
-        } while (0);
+        if(tryAgain == 'N') {
+            printf("The program will close now.\n");
+            return 0;
+        }
     }
     return 0;
 }
