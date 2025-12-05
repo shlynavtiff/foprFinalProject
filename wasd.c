@@ -7,11 +7,13 @@
 int numberList[MAX_NUMBERS];
 int numberCount = 0;
 
-void inputNumbers(){
+void inputNumbers()
+{
     int num;
     int oldCount = numberCount;
-    
-    if (numberCount > 0){
+
+    if (numberCount > 0)
+    {
         printf("\nCurrent numbers: ");
         for (int i = 0; i < numberCount; i++)
         {
@@ -21,28 +23,33 @@ void inputNumbers(){
         }
         printf("\n");
     }
-    
+
     printf("Enter numbers to add (0 to stop):\n");
-    
-    while (1){
-        if (scanf("%d", &num) != 1) {
+
+    while (1)
+    {
+        if (scanf("%d", &num) != 1)
+        {
             printf("Invalid input! Please enter a number (0 to stop).\n");
-            while(getchar() != '\n');
-            continue;  
+            while (getchar() != '\n')
+                ;
+            continue;
         }
 
         if (num == 0)
             break;
-        if (numberCount < MAX_NUMBERS){
+        if (numberCount < MAX_NUMBERS)
+        {
             numberList[numberCount] = num;
             numberCount++;
         }
-        else{
+        else
+        {
             printf("Maximum limit reached!\n");
             break;
         }
     }
-    
+
     int newNumbers = numberCount - oldCount;
     if (newNumbers == 0)
         printf("No new numbers added.\n");
@@ -50,14 +57,17 @@ void inputNumbers(){
         printf("%d number(s) added! Total: %d\n", newNumbers, numberCount);
 }
 
-void displayNumberList(){
-    if (numberCount == 0){
+void displayNumberList()
+{
+    if (numberCount == 0)
+    {
         printf("\nNo numbers in the list.\n");
         return;
     }
-    
+
     printf("\nThe numbers are: ");
-    for (int i = 0; i < numberCount; i++){
+    for (int i = 0; i < numberCount; i++)
+    {
         printf("%d", numberList[i]);
         if (i < numberCount - 1)
             printf(", ");
@@ -65,19 +75,23 @@ void displayNumberList(){
     printf("\n");
 }
 
-void clearNumberList(){
+void clearNumberList()
+{
     numberCount = 0;
     printf("\nNumber list cleared!\n");
 }
 
-void displayResults(char* operation){
-    if (numberCount == 0){
+void displayResults(char *operation)
+{
+    if (numberCount == 0)
+    {
         printf("\nNo numbers in the list. Please input numbers first (Option 1).\n");
         return;
     }
-    
+
     printf("\nThe numbers are: ");
-    for (int i = 0; i < numberCount; i++){
+    for (int i = 0; i < numberCount; i++)
+    {
         printf("%d", numberList[i]);
         if (i < numberCount - 1)
             printf(", ");
@@ -85,95 +99,112 @@ void displayResults(char* operation){
     printf("\nThe operator is: %s\n", operation);
 }
 
-void findLargest(){
-    if (numberCount == 0){
+void findLargest()
+{
+    if (numberCount == 0)
+    {
         printf("\nNo numbers in the list. Please input numbers first (Option 1).\n");
         return;
     }
-    
+
     int largest = numberList[0];
-    for (int i = 1; i < numberCount; i++){
+    for (int i = 1; i < numberCount; i++)
+    {
         if (numberList[i] > largest)
             largest = numberList[i];
     }
-    
+
     displayResults("Find Largest");
     printf("The answer is: %d\n", largest);
 }
 
-void reverseNumbers(){
-    if (numberCount == 0){
+void reverseNumbers()
+{
+    if (numberCount == 0)
+    {
         printf("\nNo numbers in the list. Please input numbers first (Option 1).\n");
         return;
     }
-    
+
     displayResults("Reverse Number");
     printf("The answers are:\n");
-    
-    for (int i = 0; i < numberCount; i++){
+
+    for (int i = 0; i < numberCount; i++)
+    {
         int num = numberList[i];
         int reversed = 0, remainder;
         int isNegative = 0;
-        
+
         // Handle negative numbers
-        if (num < 0) {
+        if (num < 0)
+        {
             isNegative = 1;
             num = -num;
         }
-        
+
         int temp = num;
-        
+
         // Handle zero specially
-        if (temp == 0) {
+        if (temp == 0)
+        {
             printf("  %s%d -> 0\n", isNegative ? "-" : "", 0);
             continue;
         }
-        
-        while (temp != 0){
+
+        while (temp != 0)
+        {
             remainder = temp % 10;
             reversed = reversed * 10 + remainder;
             temp /= 10;
         }
-        
-        if (isNegative) {
+
+        if (isNegative)
+        {
             printf("  -%d -> -%d\n", num, reversed);
-        } else {
+        }
+        else
+        {
             printf("  %d -> %d\n", num, reversed);
         }
     }
 }
 
-void strongNumbers(){
-    if (numberCount == 0){
+void strongNumbers()
+{
+    if (numberCount == 0)
+    {
         printf("\nNo numbers in the list. Please input numbers first (Option 1).\n");
         return;
     }
-    
+
     displayResults("Strong Number Check");
-    
-    for (int i = 0; i < numberCount; i++){
+
+    for (int i = 0; i < numberCount; i++)
+    {
         int num = numberList[i];
-        
+
         // Strong numbers are only defined for non-negative integers
-        if (num < 0) {
+        if (num < 0)
+        {
             printf("  %d is NOT a Strong number (negative numbers not applicable)\n", num);
             continue;
         }
-        
+
         int temp = num;
         int sum = 0;
-        
-        while (temp != 0){
-            int remainder = temp % 10;
+
+        while (temp != 0)
+        {
+            int remainder = temp % 10; // gets each number
             int fact = 1;
             for (int j = 1; j <= remainder; j++)
             {
-                fact *= j;
+                fact *= j; // calculates the factorial of the digit
             }
             sum += fact;
-            temp /= 10;
+            temp /= 10; // moves to the next digit
         }
-        
+
         if (sum == num)
             printf("  %d is a Strong number! (sum: %d)\n", num, sum);
         else
@@ -181,30 +212,34 @@ void strongNumbers(){
     }
 }
 
-void cubeRoots(){
-    if (numberCount == 0){
+void cubeRoots()
+{
+    if (numberCount == 0)
+    {
         printf("\nNo numbers in the list. Please input numbers first (Option 1).\n");
         return;
     }
-    
+
     displayResults("Cube Root");
-    printf("The answers are:\n");  
+    printf("The answers are:\n");
     double sum = 0;
-    
-    for (int i = 0; i < numberCount; i++){
+
+    for (int i = 0; i < numberCount; i++)
+    {
         double result = cbrt(numberList[i]);
         sum += result;
-        printf("  cbrt(%d) = %.4lf\n", numberList[i], result);  
+        printf("  cbrt(%d) = %.4lf\n", numberList[i], result);
     }
     printf("The sum is: %.4lf\n", sum);
 }
 
-
-int main(){
+int main()
+{
     int choice;
     char tryAgain;
-    
-    while (1){
+
+    while (1)
+    {
         printf("\n=== Group 5 Super Calculator ===\n");
         printf("[1] Input numbers\n");
         printf("[2] View number list\n");
@@ -216,34 +251,41 @@ int main(){
         printf("[0] Exit\n");
         printf("Enter your choice: ");
 
-        if (scanf("%d", &choice) != 1) {
+        if (scanf("%d", &choice) != 1)
+        {
             printf("Invalid input! Please enter a number (0-7).\n");
-            while(getchar() != '\n');
+            while (getchar() != '\n')
+                ;
             continue;
         }
-        
-        if (choice == 0){
+
+        if (choice == 0)
+        {
             printf("The program will now close.\n");
             return 0;
         }
 
-        if (choice == 1){
+        if (choice == 1)
+        {
             inputNumbers();
             continue;
         }
-        else if (choice == 2){
+        else if (choice == 2)
+        {
             displayNumberList();
             continue;
         }
-        else if (choice == 7){
+        else if (choice == 7)
+        {
             clearNumberList();
             continue;
         }
-        else if (choice < 0 || choice > 7){
+        else if (choice < 0 || choice > 7)
+        {
             printf("Invalid choice. Please select 0-7.\n");
             continue;
         }
-        
+
         switch (choice)
         {
         case 3:
@@ -259,20 +301,23 @@ int main(){
             cubeRoots();
             break;
         }
-        
+
         // Ask if user wants to continue
-        while (1) {
+        while (1)
+        {
             printf("\nDo you want to continue using the calculator? (Y/N): ");
             scanf(" %c", &tryAgain);
             tryAgain = toupper(tryAgain);
-            
-            if (tryAgain == 'Y' || tryAgain == 'N') {
+
+            if (tryAgain == 'Y' || tryAgain == 'N')
+            {
                 break;
             }
             printf("Invalid input. Please enter Y or N.\n");
         }
 
-        if(tryAgain == 'N') {
+        if (tryAgain == 'N')
+        {
             printf("The program will close now.\n");
             return 0;
         }
